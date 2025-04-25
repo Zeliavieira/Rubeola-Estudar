@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Rubéola e SRC</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8ff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    #quiz {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+    .pergunta {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .opcoes button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #mensagem {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    #final {
+      display: none;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quiz sobre Rubéola e SRC</h1>
+  <div id="quiz">
+    <div class="pergunta" id="pergunta"></div>
+    <div class="opcoes" id="opcoes"></div>
+    <div id="mensagem"></div>
+  </div>
+  <div id="final">
+    <h2>Resultado Final</h2>
+    <p id="pontuacao"></p>
+  </div>
+
+  <script>
+    const perguntas = [
+      {
+        pergunta: "Qual é o agente etiológico da rubéola?",
+        opcoes: ["Bactéria", "Fungo", "Vírus do gênero Rubivírus", "Parasita"],
+        resposta: 2
+      },
+      {
+        pergunta: "Qual é o principal modo de transmissão da rubéola?",
+        opcoes: ["Água contaminada", "Contato com sangue", "Gotículas e secreções nasais", "Alimentos crus"],
+        resposta: 2
+      },
+      {
+        pergunta: "A rubéola é conhecida também como:",
+        opcoes: ["Catapora", "Sarampo Alemão", "Gripe Rubral", "Varíola leve"],
+        resposta: 1
+      },
+      {
+        pergunta: "Qual é o principal reservatório do vírus da rubéola?",
+        opcoes: ["Água", "Animais", "Homem", "Insetos"],
+        resposta: 2
+      },
+      {
+        pergunta: "Em que ano a Região das Américas foi considerada livre da transmissão endêmica da rubéola?",
+        opcoes: ["2000", "2008", "2015", "2020"],
+        resposta: 2
+      }
+      // Adicione aqui até 50 questões
+    ];
+
+    let indice = 0;
+    let acertos = 0;
+
+    const perguntaEl = document.getElementById('pergunta');
+    const opcoesEl = document.getElementById('opcoes');
+    const mensagemEl = document.getElementById('mensagem');
+    const finalEl = document.getElementById('final');
+    const pontuacaoEl = document.getElementById('pontuacao');
+
+    function mostrarPergunta() {
+      mensagemEl.textContent = "";
+      const q = perguntas[indice];
+      perguntaEl.textContent = q.pergunta;
+      opcoesEl.innerHTML = "";
+      q.opcoes.forEach((opcao, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = opcao;
+        btn.onclick = () => verificarResposta(i);
+        opcoesEl.appendChild(btn);
+      });
+    }
+
+    function verificarResposta(respostaSelecionada) {
+      const correta = perguntas[indice].resposta;
+      if (respostaSelecionada === correta) {
+        mensagemEl.textContent = "✅ Parabéns, acertou!";
+        acertos++;
+        // Adicione som e confete aqui se quiser
+      } else {
+        mensagemEl.textContent = "❌ Ops! Estude mais, você consegue.";
+        // Adicione som de erro aqui
+      }
+      indice++;
+      setTimeout(() => {
+        if (indice < perguntas.length) {
+          mostrarPergunta();
+        } else {
+          mostrarResultado();
+        }
+      }, 1500);
+    }
+
+    function mostrarResultado() {
+      document.getElementById('quiz').style.display = 'none';
+      finalEl.style.display = 'block';
+      pontuacaoEl.textContent = `Você acertou ${acertos} de ${perguntas.length} perguntas.`;
+    }
+
+    mostrarPergunta();
+  </script>
+</body>
+</html>
+
